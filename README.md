@@ -70,6 +70,25 @@
           }
           
 - Ví dụ trên, WebAppInterface class cung cấp 1 webpage để tạo 1 toast, sử dụng show Toast mehtods
+- Ta có thể bind class JavaScript chạy trên Webview với addJavascriptInterface() với tên interface là Android
+
+          val webView: WebView = findViewById(R.id.webview)
+          webView.addJavascriptInterface(WebAppInterface(this), "Android")
+          
+- Nó sẽ tạo 1 interface gọi Android cho JavaScript chạy trên WebView. Tại điểm này, web app có truy cập vào WebAppInterface. Ví dụ, đây laf đoạn HTML và JS tạo message show Toast sử dụng interface khi click vào button 
+
+            <input type="button" value="Say hello" onClick="showAndroidToast('Hello Android!')" />
+
+                    <script type="text/javascript">
+                    function showAndroidToast(toast) {
+                    Android.showToast(toast);
+                    }
+                    </script>
+                    
+- Ko cần phải khởi tạo interface từ JavaScript. WebView tự động làm sẵn cho web app page. Vậy, khi click vào button, showAndroidToast() function sử dụng Android interface để gọi WebAppInteface.showToast()
+
+
+
 
 
 
