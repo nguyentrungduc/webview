@@ -56,8 +56,9 @@
                     
 - WebSettings cung cấp truy cập vào một loạt các cài đặt khác khá hữu ích. Ví dụ, nếu bạn cần phát triển tính năng web và được designed cụ thể với Webview trên ứng dụng của bạn, bạn cần định nghĩa tùy độ tuổi người dùng với setUserAgentString(), sau đó query các end-user trong trang web để xác minh rằng ứng dụng khách ưu cầu trang web của bạn thực sự là ứng dụng Android
 
-- Binding JavaScript code to Android code
-
+### Binding JavaScript code to Android code
+- Khi phát triển web appp với 1 design cụ thể cgi webciew in android app,ta cần tạo interface với đoạn JavaScript code và client-side với Android code. Ví dụ, JavaScript code vần gọi method của Android code là show Dialog, với JavaScript là sử dụng alert() function
+- Để bind 1 interface giữa 
 
 
 
