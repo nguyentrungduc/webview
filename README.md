@@ -42,6 +42,9 @@
                   <uses-permission android:name="android.permission.INTERNET" />
                   ...
               </manifest>
+              
+- Ngoài ra ta có thể để chế độ support fullscreen với WebChormeClient. Class này được gọi khi mà webview cần permission thay đổi host app's UI, như là tạo hay đóng windows và gửi JavaScript dialogs cho người dùng
+- Xử lý events khi ảnh hướng vào nội dung rendeing , như là lỗi hay 
   
   
 
