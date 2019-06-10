@@ -44,7 +44,13 @@
               </manifest>
               
 - Ngoài ra ta có thể để chế độ support fullscreen với WebChormeClient. Class này được gọi khi mà webview cần permission thay đổi host app's UI, như là tạo hay đóng windows và gửi JavaScript dialogs cho người dùng
-- Xử lý events khi ảnh hướng vào nội dung rendeing , như là lỗi hay 
+- Xử lý events khi ảnh hướng vào nội dung rendeing , như là lỗi tuef form submit hay navigation với WebViewClient. Bạn cần sử dụng subclass để chặn URL loading
+- Để enable JavaScript sử dụng WebSetting
+## Using JavaScrpit trong WebView
+- Nếu webpage của bạn cần load webview sử dụng JavaScript, ta cần enable JavaScript cho webview. Khi JavaScript được bật, bạn cần phải tạo interface giữa app và javascript code
+### Enable JavaScript
+- JavaScript disable với WebView default. Bạn có thể bất nó với WebSettings đính kèm với Webview của bạn. Bạn có thể retrievw WebSettings với methos getSetting(), 
+
   
   
 
