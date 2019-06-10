@@ -49,7 +49,18 @@
 ## Using JavaScrpit trong WebView
 - Nếu webpage của bạn cần load webview sử dụng JavaScript, ta cần enable JavaScript cho webview. Khi JavaScript được bật, bạn cần phải tạo interface giữa app và javascript code
 ### Enable JavaScript
-- JavaScript disable với WebView default. Bạn có thể bất nó với WebSettings đính kèm với Webview của bạn. Bạn có thể retrievw WebSettings với methos getSetting(), 
+- JavaScript disable với WebView default. Bạn có thể bất nó với WebSettings đính kèm với Webview của bạn. Bạn có thể retrievw WebSettings với methos getSetting(), sau đó enable JavaScrpit với setJavaScriptEnabled()
+
+                    val myWebView: WebView = findViewById(R.id.webview)
+                    myWebView.settings.javaScriptEnabled = true
+                    
+- WebSettings cung cấp truy cập vào một loạt các cài đặt khác khá hữu ích. Ví dụ, nếu bạn cần phát triển tính năng web và được designed cụ thể với Webview trên ứng dụng của bạn, bạn cần định nghĩa tùy độ tuổi người dùng với setUserAgentString(), sau đó query các end-user trong trang web để xác minh rằng ứng dụng khách ưu cầu trang web của bạn thực sự là ứng dụng Android
+
+- Binding JavaScript code to Android code
+
+
+
+
 
   
   
