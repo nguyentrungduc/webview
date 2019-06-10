@@ -87,6 +87,10 @@
                     
 - Ko cần phải khởi tạo interface từ JavaScript. WebView tự động làm sẵn cho web app page. Vậy, khi click vào button, showAndroidToast() function sử dụng Android interface để gọi WebAppInteface.showToast()
 
+- Chú ý : Khi sử dụng  addJavascriptInterface() nghĩa là bạn đã đồng ý cho JS control app của bạn. Nó thực sự tốt để làm các feature nhưng nó cũng có thể xảy ra các issue. Khi HTML trong webview không đáng tin cậy (ví dụ, một phần trong HTML ccung cấp bởi unknown person or process), sau đó tấn công có thể gồm HTML rằng chạy trong client side code và bất kỳ đoạn mã nào mà kể tấn công chọn. Vì vậy bạn ko nên sử dụng addJsInterface() trừ khi bạn viết hòan toàn đoạn code đó. Bạn cũng ko nên đồng ý user navigate tới bất kì web khác bạn ko sở hữu nó
+
+
+
 
 
 
