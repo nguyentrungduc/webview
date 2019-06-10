@@ -58,7 +58,20 @@
 
 ### Binding JavaScript code to Android code
 - Khi phát triển web appp với 1 design cụ thể cgi webciew in android app,ta cần tạo interface với đoạn JavaScript code và client-side với Android code. Ví dụ, JavaScript code vần gọi method của Android code là show Dialog, với JavaScript là sử dụng alert() function
-- Để bind 1 interface giữa 
+- Để bind 1 interface JavaScript với Android code, sử dụng addJavascriptInterface(), truyền cho nó 1 class instance để bind JavaScipt và 1 interface
+
+          class WebAppInterface(private val mContext: Context) {
+
+              /** Show a toast from the web page  */
+              @JavascriptInterface
+              fun showToast(toast: String) {
+                  Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
+              }
+          }
+          
+- Ví dụ trên, WebAppInterface class cung cấp 1 webpage để tạo 1 toast, sử dụng show Toast mehtods
+
+
 
 
 
