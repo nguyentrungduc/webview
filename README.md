@@ -132,7 +132,10 @@
                         return super.onKeyDown(keyCode, event)
                     }
 
+- Method canGoBack() return true nếu nó thực sự có web trc nó. Tương tự như vậy ta có thể call canGoForward() khi có forward history. Nếu ko check khi người dùng đến end history , goBack() và goForward() sẽ ko làm gì cả.
 
+### Handling device configuration changes
+- 
 
 
   
