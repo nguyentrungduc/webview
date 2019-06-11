@@ -159,12 +159,65 @@
 ### Defining programmatic actions
 - Khi webview cố tải một trang được Google phân loại là mối nguy hiểm, webview theo mặc định hiển thị một quảng cáo xen kẽ vào cảnh báo người dùng về mối đe dọa đó. Màn hình cung cấp cho người dùng tùy chọn tải URL bằng mọi cách hoặc quay lại trang trước an toàn 
 
+- Nếu từ Android 8.1 trở lên, ta có thể define theo cách lập trình các ứng dujng của bạn đối phó với mối đe dọa đã biết
+- Có thể điều khiển khi nào app sẽ reports mối nguy hại đến Safe Browing
+- Bạn có thể để ứng dụng của mình tự động thực hiện các hành động cụ thể, chẳng hạn như quay trơ lại an toàn, mỗi khi có warning
 
-  
-  
+          private lateinit var superSafeWebView: WebView
+          private var safeBrowsingIsInitialized: Boolean = false
 
+          // ...
 
+          override fun onCreate(savedInstanceState: Bundle?) {
+              super.onCreate(savedInstanceState)
+
+              superSafeWebView = WebView(this)
+              superSafeWebView.webViewClient = MyWebViewClient()
+              safeBrowsingIsInitialized = false
+
+              if (WebViewFeature.isFeatureSupported(WebViewFeature.START_SAFE_BROWSING)) {
+                  WebViewCompat.startSafeBrowsing(this, ValueCallback<Boolean> { success ->
+                      safeBrowsingIsInitialized = true
+                      if (!success) {
+                          Log.e("MY_APP_TAG", "Unable to initialize Safe Browsing!")
+                      }
+                  })
+              }
+          }
           
+          class MyWebViewClient : WebViewClientCompat() {
+              // Automatically go "back to safety" when attempting to load a website that
+              // Google has identified as a known threat. An instance of WebView calls
+              // this method only after Safe Browsing is initialized, so there's no
+              // conditional logic needed here.
+              override fun onSafeBrowsingHit(
+                      view: WebView,
+                      request: WebResourceRequest,
+                      threatType: Int,
+                      callback: SafeBrowsingResponseCompat
+              ) {
+                  // The "true" argument indicates that your app reports incidents like
+                  // this one to Safe Browsing.
+                  if (WebViewFeature.isFeatureSupported(WebViewFeature.SAFE_BROWSING_RESPONSE_BACK_TO_SAFETY)) {
+                      callback.backToSafety(true)
+                      Toast.makeText(view.context, "Unsafe web page blocked.", Toast.LENGTH_LONG).show()
+                  }
+              }
+          }
   
+### HTML 5 Geolocation API
+- Với api 23 trở lên, Geolocation chỉ support cho secure origins, như HTTPS. Một số request với GEOLocation Api từ no-secure sẽ auto bị từ chối mà ko cần gọi method onGeolocationPermissionsShowPrompt(). 
+
+### Opting out of metrics collection
+- Webview có khả năng load dữ liệu ẩn danh lên Google khi người dùng đã đồng ý. Dữ liệu được thu thập trên cơ sở mỗi ứng dụng cho mỗi ứng dụng khởi tạo Webview. Bạn có thể bỏ feature này bằng 
+
+          <manifest>
+              <application>
+              ...
+              <meta-data android:name="android.webkit.WebView.MetricsOptOut"
+                         android:value="true" />
+              </application>
+          </manifest>
+
   
 
