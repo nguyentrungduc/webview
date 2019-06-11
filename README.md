@@ -113,7 +113,24 @@
               }
           }
 
+          val myWebView: WebView = findViewById(R.id.webview)
+          myWebView.webViewClient = MyWebViewClient()
+          
+- Giờ khi user click vào link, hệ thống sẽ gọi sholdOverrideUrlLoading(), nó sẽ kiểm tra xem Url host có match với "www.example.com" hay không. Nếu match , method sẽ return false và ko override method Url loading -> nó sẽ cho phép webview load url bình thường. Còn ko , sẽ gọi intent view by url 
 
+### Navigating web page history
+- Khi webview override Url loading, nó sẽ tự động lưu lại web history các page đã vào. ta có thể backward và forward với method goBack() và goForward()
+
+                    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+                        // Check if the key event was the Back button and if there's history
+                        if (keyCode == KeyEvent.KEYCODE_BACK && myWebView.canGoBack()) {
+                            myWebView.goBack()
+                            return true
+                        }
+                        // If it wasn't the Back key or there's no web page history, bubble up to the default
+                        // system behavior (probably exit the activity)
+                        return super.onKeyDown(keyCode, event)
+                    }
 
 
 
