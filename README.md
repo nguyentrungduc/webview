@@ -156,7 +156,8 @@
               </application>
           </manifest>
           
--
+### Defining programmatic actions
+- Khi webview cố tải một trang được Google phân loại là mối nguy hiểm, webview theo mặc định hiển thị một quảng cáo xen kẽ vào cảnh báo người dùng về mối đe dọa đó. Màn hình cung cấp cho người dùng tùy chọn tải URL bằng mọi cách hoặc quay lại trang trước an toàn 
 
 
   
