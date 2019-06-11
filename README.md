@@ -90,10 +90,28 @@
 - Chú ý : Khi sử dụng  addJavascriptInterface() nghĩa là bạn đã đồng ý cho JS control app của bạn. Nó thực sự tốt để làm các feature nhưng nó cũng có thể xảy ra các issue. Khi HTML trong webview không đáng tin cậy (ví dụ, một phần trong HTML ccung cấp bởi unknown person or process), sau đó tấn công có thể gồm HTML rằng chạy trong client side code và bất kỳ đoạn mã nào mà kể tấn công chọn. Vì vậy bạn ko nên sử dụng addJsInterface() trừ khi bạn viết hòan toàn đoạn code đó. Bạn cũng ko nên đồng ý user navigate tới bất kì web khác bạn ko sở hữu nó
 
 ### Handling page navigation
-- Khi user click vào 1 link từ webview, theo mặc định xử lý của Android sẽ launch app và handles URLs
+- Khi user click vào 1 link từ webview, theo mặc định xử lý của Android sẽ launch app và handles URLs. Theo defailt web browser mở và load đích URL. Tuy nhiên, bạn có thể override nó bởi webview, để link tới webview của bạn. Bạn có thể cho ng dùng navigate backwark và thông qua web page history để duy trì web của bạn
+- Để open links clicked bởi user, cung cấp 1 WebViewClient cho webview, sử dụng setWebViewClient() 
+          
+          val myWebView: WebView = findViewById(R.id.webview)
+          webView.webViewClient = WebViewClient()
 
+- Nếu bạ muốn kiểm soát nhiều hơn khi click vào link, tạo WebViewClient đc override method shouldOverrideUrlLoading() :
 
+          private class MyWebViewClient : WebViewClient() {
 
+              override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                  if (Uri.parse(url).host == "www.example.com") {
+                      // This is my web site, so do not override; let my WebView load the page
+                      return false
+                  }
+                  // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+                  Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                      startActivity(this)
+                  }
+                  return true
+              }
+          }
 
 
 
