@@ -134,8 +134,29 @@
 
 - Method canGoBack() return true nếu nó thực sự có web trc nó. Tương tự như vậy ta có thể call canGoForward() khi có forward history. Nếu ko check khi người dùng đến end history , goBack() và goForward() sẽ ko làm gì cả.
 
-### Handling device configuration changes
-- 
+## Managing WebView object
+- Android cung cấp một số API để giúp bạn quản lý các WebView object hiển thị nội dung web trong ứng dụng của bạn. 
+
+### Version API
+- Từ Android 7.0, ta có thể chọn các package khác nhau để hiện thi webview. Với AndroidX webkit library bao gồm getCurrentWebViewPackage() method để fetching infomation cần thiết để hiển thị nội dung web trong ứng dụng của bạn. Method này thực sự hữu ích khi bạn phân tích error xảy ra khi app của bạn cố gắng hiển thị nội dung web sử dụng paricular package's cài đặt của webview.
+
+          val webViewPackageInfo = WebViewCompat.getCurrentWebViewPackage(appContext)
+          Log.d("MY_APP_TAG", "WebView version: ${webViewPackageInfo.versionName}")
+
+### Google Safe Browsing Service
+- Để cung cấp cho người dùng của bạn 1 trải nghiệm an toàn, wbeview của bạn có thể verify bằng  Google Safe Browsing, nó sẽ enable app của bạn để show cho user cảnh bảo khi mà họ chuyển đến một website ko an toàn
+- Giá trị mặc định của EnableSafeBrowsing là true, thỉnh thoảng có những case mà có thể bạn muốn chỉ bật Safe Browsing  hay tắt nó. Với Android 8.0 sử dụng setSafeBrowsingEnabled()
+- Nếu bạn muốn tất cả các webview object từ chối check safe browing, bạn có thể add vào thẻ meta data : 
+
+          <manifest>
+              <application>
+                  <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
+                             android:value="false" />
+                  ...
+              </application>
+          </manifest>
+          
+-
 
 
   
