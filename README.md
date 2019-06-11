@@ -219,5 +219,62 @@
               </application>
           </manifest>
 
+### Termination Handling API
+- API này xử lý các trường hợp trong đó quá trình render cho một WebView biến mất, vì hệ thống đã kill việc render để lấy lại bộ nhớ rất cần thiết hoặc do chính quá trình render bị lỗi. Bằng cách sử dụng API này, bạn cho phép ứng dụng của mình tiếp tục thực thi, mặc dù quá trình kết xuất đã biến mất.
   
+- Neus quá trình render bị lỗi khi đang load page, cố gắng tải lại thì kết qủa vẫn tương tự 
+
+          inner class MyRendererTrackingWebViewClient : WebViewClient() {
+              private var mWebView: WebView? = null
+
+              override fun onRenderProcessGone(view: WebView, detail: RenderProcessGoneDetail): Boolean {
+                  if (!detail.didCrash()) {
+                      // Renderer was killed because the system ran out of memory.
+                      // The app can recover gracefully by creating a new WebView instance
+                      // in the foreground.
+                      Log.e("MY_APP_TAG", ("System killed the WebView rendering process " +
+                          "to reclaim memory. Recreating..."))
+
+                      mWebView?.also { webView ->
+                          val webViewContainer: ViewGroup = findViewById(R.id.my_web_view_container)
+                          webViewContainer.removeView(webView)
+                          webView.destroy()
+                          mWebView = null
+                      }
+
+                      // By this point, the instance variable "mWebView" is guaranteed
+                      // to be null, so it's safe to reinitialize it.
+
+                      return true // The app continues executing.
+                  }
+
+                  // Renderer crashed because of an internal error, such as a memory
+                  // access violation.
+                  Log.e("MY_APP_TAG", "The WebView rendering process crashed!")
+
+                  // In this example, the app itself crashes after detecting that the
+                  // renderer crashed. If you choose to handle the crash more gracefully
+                  // and allow your app to continue executing, you should 1) destroy the
+                  // current WebView instance, 2) specify logic for how the app can
+                  // continue executing, and 3) return "true" instead.
+                  return false
+              }
+          }
+
+### Renderer Importance API
+- Hiện giờ các webview ở chế độ operate in multiprocess mode, bạn có thế linh hoạt trong ứng dụng của bạn xử lý các tình huống khi hết bộ nhớ. Bạn có thể sử dụng Renderer Importance API, từ Android 8.0 để set độ ưu tiên việc render assigned cho webview. Cụ thể, bạn cps thể muốn phần chính của ứng dụng tiếp tục thực hiện việc render khi webview bị kill. 
+
+- Nếu muốn không hiển thị đối tượng WebView trong một thời gian dài để hệ thống có thể lấy lại bộ nhớ mà trình render 
+
+          val myWebView: WebView = ...
+          myWebView.setRendererPriorityPolicy(RENDERER_PRIORITY_BOUND, true)
+
+### Migrating to WebView in Android 4.4
+
+- Android 4.4 giới thiệu new version webview được base từ Chrominum. Nó thay đổi update webview performace và support  cho HTML5, CSS3 và JS phù hợp với các trình duyệt mới nhất. Any app sử dụng webview sẽ sử dụng chúng từ 4.4 trở lên
+### User Agent Changes
+- nếu server content có user agentm, nó sẽ thay đổi 1 chút trên Chrome 
+
+          Mozilla/5.0 (Linux; Android 4.4; Nexus 4 Build/KRT16H) AppleWebKit/537.36
+          (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36
 
