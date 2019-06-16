@@ -286,4 +286,21 @@
           runOnUiThread {
               // Code for WebView goes here
           }
+ - Phải chắc chắn rằng ko bh bị block thread. Có 1 tình huống bị như này khi chờ callback JS
+ 
+          webView.loadUrl("javascript:fn()")
+          while (result == null) {
+              Thread.sleep(100)
+          }
+          
+- Thay vào đó có thể sử dụng evaluateJavaScrpit() để chạy JavaScript không đồng bộ
+
+### Custom URL handling
+- Cái mới WebViewáp dụng các hạn chế bổ sung khi yêu cầu tài nguyên và giải quyết các liên kết sử dụng lược đồ custom URL. Ví dụ: nếu bạn triển khai callbacl như shouldOverrideUrlLoading()hoặc shouldInterceptRequest()sau đó chỉ WebViewgọi chúng cho các URL hợp lệ.
+
+Nếu bạn đang sử dụng custom URL hoặc base URL và nhận thấy rằng ứng dụng của bạn sẽ nhận được ít cuộc gọi hơn đến các call back này hoặc không tải tài nguyên trên Android 4.4, hãy đảm bảo rằng các yêu cầu chỉ định URL hợp lệ phù hợp với RFC 3986 .
+
+Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoading() của bạn cho các liên kết như thế này:
+ 
+          <a href="showProfile">Show Profile</a>
           
