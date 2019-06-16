@@ -329,3 +329,37 @@ Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoad
                   false
               }
           }
+### WebSetting
+
+- Quản lý trạng thái cài đặt cho WebView. Khi một WebView được tạo lần đầu tiên, nó sẽ có được một tập hợp các default setting. Các cài đặt mặc định này sẽ được trả về từ bất kỳ cuộc gọi getter nào. Một WebSettings đthu được từ WebView getSettings()gắn liền với vòng đời của WebView. Nếu một WebView đã bị hủy, bất kỳ lệnh gọi phương thức nào WebSettingscũng sẽ ném IllegalStateException.
+
+- Một số setting hay dùng
+- WebSettings.LayoutAlgorithm : Enum để kiểm soát bố cục của html.
+              
+              NORMALcó nghĩa là không rendering change. Đây là lựa chọn được đề xuất để tương thích tối đa trên các nền tảng và phiên bản Android khác nhau.
+          SINGLE_COLUMN di chuyển tất cả nội dung vào một cột có chiều rộng của view
+          NARROW_COLUMNSlàm cho tất cả các cột không rộng hơn màn hình nếu có thể. Chỉ sử dụng điều này cho các cấp API trước Build.VERSION_CODES.KITKAT.
+          TEXT_AUTOSIZINGtăng kích thước phông chữ của các đoạn văn dựa trên phương pháp phỏng đoán để làm cho văn bản có thể đọc được khi xem bố cục khung nhìn rộng ở chế độ tổng quan. Bạn nên bật hỗ trợ thu phóng WebSettings.setSupportZoom(boolean)khi sử dụng chế độ này. Được hỗ trợ từ cấp API Build.VERSION_CODES.KITKAT
+
+- WebSettings.ZoomDensity : chỉ định mật độ zoom mong muốn 
+                   
+                   FAR makes 100% looking like in 240dpi
+                    MEDIUM makes 100% looking like in 160dpi
+                    CLOSE makes 100% looking like in 120dpi
+                    
+- getAllowContentAccess() :  cho phép WebView này có hỗ trợ truy cập content URL không.
+- getAllowFileAccess() : cho phép Webview truy cập file hay ko 
+- getAllowFileAccessFromFileURLs() : liệu JavaScript có chạy trong context của 1 file URL có thể access nội dụng của file khác trên URL ko???
+- getAllowUniversalAccessFromFileURLs(): liệu JavaScript có chạy trong context của 1 file URL có thể accessnội dụng của bất kì orgin 
+- getBlockNetworkImage() : set cho phép webview tải image từ network
+- getBlockNetworkLoads() :  set cho phép webview tải resource từ network
+- getBuiltInZoomControls() : set các cơ chế zoom mà webview đang sử dụng 
+- getCacheMode: cơ chế cache của webview
+
+          LOAD_CACHE_ELSE_NETWORK : Sử dụng tài nguyên được lưu trong bộ nhớ cache khi chúng có sẵn, ngay cả khi chúng đã hết hạn. Nếu không thì tải tài nguyên từ mạng.
+          LOAD_CACHE_ONLY : ko dùng mạng chỉ lấy từ cache
+          LOAD_DEFAULT : Chế độ sử dụng bộ đệm mặc định. Nếu loại điều hướng không áp đặt bất kỳ hành vi cụ thể nào, hãy sử dụng các tài nguyên được lưu trong bộ nhớ cache khi chúng có sẵn và không hết hạn, nếu không thì tải tài nguyên từ mạng.
+          LOAD_NORMAL : derpecated from 17
+          LOAD_NO_CACHE : đ dùng cache
+          
+- getDatabaseEnabled() : Xem bật DB api hay ko
