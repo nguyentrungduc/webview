@@ -304,3 +304,28 @@ Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoad
  
           <a href="showProfile">Show Profile</a>
           
+- Kết quả người dùng khi nhấp vào link như vậy có thể khác nhau
+- Nếu bạn để load trang bằng cách gọi loadData() hoặc loadDataWithBaseURL() với base URL ko hợp lệ hoặc ko có giá trị, ta sẽ ko nhận dduocj call back shouldOverrideUrlLoading() khi link trang 
+          
+- Lưu ý: Khi bạn sử dụng loadDataWithBaseURL()và base URL không hợp lệ hoặc đặt null, tất cả các liên kết trong nội dung bạn đang tải phải tuyệt đối.
+
+- Nếu bạn đã tải trang bằng cách gọi loadUrl() hoặc cung cấp base URL hợp lệ loadDataWithBaseURL(), thì bạn sẽ nhận được call back shouldOverrideUrlLoading() cho loại liên kết này trên trang, nhưng URL bạn nhận được sẽ tuyệt đối, liên quan đến trang hiện tại. Ví dụ: URL bạn nhận được sẽ "http://www.example.com/showProfile"thay vì chỉ "showProfile".
+
+- Thay vì sử dụng một chuỗi đơn giản trong một liên kết như được hiển thị ở trên, bạn có thể sử dụng một lược đồ tùy chỉnh như sau: 
+
+          <a href="example-app:showProfile">Show Profile</a>
+          
+- Sau đó, bạn có thể xử lý URL này trong shouldOverrideUrlLoading() 
+
+          // The URL scheme should be non-hierarchical (no trailing slashes)
+          const val APP_SCHEME = "example-app:"
+
+          override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+              return if (url?.startsWith(APP_SCHEME) == true) {
+                  urlData = URLDecoder.decode(url.substring(APP_SCHEME.length), "UTF-8")
+                  respondToData(urlData)
+                  true
+              } else {
+                  false
+              }
+          }
