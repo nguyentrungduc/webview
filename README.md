@@ -347,14 +347,14 @@ Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoad
                     MEDIUM makes 100% looking like in 160dpi
                     CLOSE makes 100% looking like in 120dpi
                     
-- getAllowContentAccess() :  cho phép WebView này có hỗ trợ truy cập content URL không.
-- getAllowFileAccess() : cho phép Webview truy cập file hay ko 
-- getAllowFileAccessFromFileURLs() : liệu JavaScript có chạy trong context của 1 file URL có thể access nội dụng của file khác trên URL ko???
-- getAllowUniversalAccessFromFileURLs(): liệu JavaScript có chạy trong context của 1 file URL có thể accessnội dụng của bất kì orgin 
-- getBlockNetworkImage() : set cho phép webview tải image từ network
-- getBlockNetworkLoads() :  set cho phép webview tải resource từ network
-- getBuiltInZoomControls() : set các cơ chế zoom mà webview đang sử dụng 
-- getCacheMode: cơ chế cache của webview
+- setAllowContentAccess() :  cho phép WebView này có hỗ trợ truy cập content URL không.
+- setAllowFileAccess() : cho phép Webview truy cập file hay ko 
+- setAllowFileAccessFromFileURLs() : liệu JavaScript có chạy trong context của 1 file URL có thể access nội dụng của file khác trên URL ko???
+- setAllowUniversalAccessFromFileURLs(): liệu JavaScript có chạy trong context của 1 file URL có thể accessnội dụng của bất kì orgin 
+- setBlockNetworkImage() : set cho phép webview tải image từ network
+- setBlockNetworkLoads() :  set cho phép webview tải resource từ network
+- setBuiltInZoomControls() : set các cơ chế zoom mà webview đang sử dụng 
+- setCacheMode: cơ chế cache của webview
 
           LOAD_CACHE_ELSE_NETWORK : Sử dụng tài nguyên được lưu trong bộ nhớ cache khi chúng có sẵn, ngay cả khi chúng đã hết hạn. Nếu không thì tải tài nguyên từ mạng.
           LOAD_CACHE_ONLY : ko dùng mạng chỉ lấy từ cache
@@ -362,4 +362,6 @@ Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoad
           LOAD_NORMAL : derpecated from 17
           LOAD_NO_CACHE : đ dùng cache
           
-- getDatabaseEnabled() : Xem bật DB api hay ko
+- setDatabaseEnabled() : Xem bật DB api hay ko
+- setJavaScriptEnabled() : bật JS hay ko 
+- setLoadWithOverviewMode() : WebView có tải các trang ở chế độ tổng quan hay không, nghĩa là thu nhỏ nội dung để vừa với màn hình theo chiều rộng.
