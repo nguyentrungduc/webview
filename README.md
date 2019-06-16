@@ -277,4 +277,13 @@
 
           Mozilla/5.0 (Linux; Android 4.4; Nexus 4 Build/KRT16H) AppleWebKit/537.36
           (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36
+          
+* Nếu muốn truy xuất user agent ko lưu trong app hoặc ko muốn khởi tạo sử dụng getDefaultAgent(), nhưng nếu muốn override user agent trong webview sử dụng getUserAgentString()
 
+### Multi-Threading and Thread Blocking
+- Nếu bạn sử dụng method trong webview từ bất kỳ một luồng nào khác ngoài main thread, nó có thể gây ra 1 kết quả ko mong muốn. Ví dụ nếu app bạn sử dụng quá nhiều luồng, bạn nên sử dụng runOnUIThread() để đảm bảo nó chạy trên luồng chính 
+
+          runOnUiThread {
+              // Code for WebView goes here
+          }
+          
