@@ -118,6 +118,15 @@
           
 - Giờ khi user click vào link, hệ thống sẽ gọi sholdOverrideUrlLoading(), nó sẽ kiểm tra xem Url host có match với "www.example.com" hay không. Nếu match , method sẽ return false và ko override method Url loading -> nó sẽ cho phép webview load url bình thường. Còn ko , sẽ gọi intent view by url 
 
+* Trong webview client có một số callback đáng chú ý như 
+
+- doUpdateVisitedHistory(WebView view, String url, boolean isReload) : Thông báo cho application host để cập nhật cơ sở dữ liệu liên kết đã truy cập của nó.
+- onFormResubmission(WebView view, Message dontResend, Message resend)
+ - onPageFinished(WebView view, String url) : call back load trang xong
+ - onPageStarted(WebView view, String url, Bitmap favicon) : callback đang load trang 
+ - onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) : callback load resource lỗi 
+ - onScaleChanged(WebView view, float oldScale, float newScale) : noti scale changed webview
+ 
 ### Navigating web page history
 - Khi webview override Url loading, nó sẽ tự động lưu lại web history các page đã vào. ta có thể backward và forward với method goBack() và goForward()
 
