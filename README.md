@@ -118,6 +118,34 @@
           
 - Giờ khi user click vào link, hệ thống sẽ gọi sholdOverrideUrlLoading(), nó sẽ kiểm tra xem Url host có match với "www.example.com" hay không. Nếu match , method sẽ return false và ko override method Url loading -> nó sẽ cho phép webview load url bình thường. Còn ko , sẽ gọi intent view by url 
 
+- Method trên đã bị deprection từ api 24 -> sử dụng shouldOverrideUrlLoading(WebView view, WebResourceRequest request)
+
+           @TargetApi(Build.VERSION_CODES.N)
+              @Override
+              public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                  final Uri uri = request.getUrl();
+                  return handleUri(uri);
+              }
+
+              private boolean handleUri(final Uri uri) {
+                  Log.i(TAG, "Uri =" + uri);
+                  final String host = uri.getHost();
+                  final String scheme = uri.getScheme();
+                  // Based on some condition you need to determine if you are going to load the url 
+                  // in your web view itself or in a browser. 
+                  // You can use `host` or `scheme` or any part of the `uri` to decide.
+                  if (/* any condition */) {
+                      // Returning false means that you are going to load this url in the webView itself
+                      return false;
+                  } else {
+                      // Returning true means that you need to handle what to do with the url
+                      // e.g. open web page in a Browser
+                      final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                      startActivity(intent);
+                      return true;
+                  }
+              }
+
 * Trong webview client có một số callback đáng chú ý như 
 
 - doUpdateVisitedHistory(WebView view, String url, boolean isReload) : Thông báo cho application host để cập nhật cơ sở dữ liệu liên kết đã truy cập của nó.
