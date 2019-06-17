@@ -171,6 +171,9 @@
 
 - Method canGoBack() return true nếu nó thực sự có web trc nó. Tương tự như vậy ta có thể call canGoForward() khi có forward history. Nếu ko check khi người dùng đến end history , goBack() và goForward() sẽ ko làm gì cả.
 
+
+### WebViewClient vs WebChromeClient 
+- WebViewClient là 1 interface để nhận các sự kiện về redering webview còn WebChomreClient cho phép ta handler các component trong JS như dialog, processbar,....
 ## Managing WebView object
 - Android cung cấp một số API để giúp bạn quản lý các WebView object hiển thị nội dung web trong ứng dụng của bạn. 
 
@@ -514,3 +517,12 @@ Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoad
                 </script>
             </body>
           </html>     
+
+
+### WebviewDatabase
+
+- Class này cho phép ta xác định xem bất kỳ WebView nào được sử dụng trong ứng dụng đã lưu trữ bất kỳ loại dữ liệu duyệt web nào sau đây và để xóa mọi dữ liệu được lưu trữ như vậy cho tất cả các WebView trong ứng dụng, ví dụ như username password, http authen, data text fields,...
+- Một số method: 
+- clearFormData() : xóa tất cả data từ webform
+- clearHttpAuthUsernamePassword() : xóa tất cả thông tin xác thực http
+- hasFormData() : Check xem có data trong textfield hay ko 
