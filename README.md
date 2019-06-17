@@ -394,3 +394,86 @@ Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoad
               }
 
           }
+
+      
+
+          public class WebViewActivity extends AppCompatActivity {
+
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  setContentView(R.layout.activity_webview);
+
+                  WebView webView = (WebView) findViewById(R.id.webview);
+                  webView.loadUrl("file:///android_asset/index.html");
+
+                  webView.addJavascriptInterface(new WebAppInterface(this), "AndroidInterface"); // To call methods in Android from using js in the html, AndroidInterface.showToast, AndroidInterface.getAndroidVersion etc
+                  WebSettings webSettings = webView.getSettings();
+                  webSettings.setJavaScriptEnabled(true);
+                  webView.setWebViewClient(new MyWebViewClient());
+                  webView.setWebChromeClient(new MyWebChromeClient());
+              }
+
+
+              private class MyWebViewClient extends WebViewClient {
+                  @Override
+                  public void onPageFinished (WebView view, String url) {
+                      //Calling a javascript function in html page
+                      view.loadUrl("javascript:alert(showVersion('called by Android'))");
+                  }
+              }
+
+              private class MyWebChromeClient extends WebChromeClient {
+                  @Override
+                  public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                      Log.d("LogTag", message);
+                      result.confirm();
+                      return true;
+                  }
+              }
+          }
+          
+               <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <meta http-equiv="X-UA-Compatible" content="IE=edge">
+              <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+              <title>Hello</title>
+
+              <style>
+                body, html {
+                  height: 100%;
+                  text-align: center;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color: #F89821;
+                  background-color: #ffffff;
+                  padding: 20px;
+                  margin-bottom: 100px;
+                }
+              </style>
+
+            </head>
+            <body>
+                <input type="button" value="Say hello" onClick="showAndroidToast('Hello Android!')" />
+                <br/><br/>
+                <input type="button" value="Show Version" onClick="showVersion('called within the html')" />
+                <br/><br/>
+                <p id="version"></p>
+                <script type="text/javascript">
+                  <!-- Sending value to Android -->
+                  function showAndroidToast(toast) {
+                      AndroidInterface.showToast(toast);
+                  }
+
+                  <!-- Getting value from Android -->
+                  function showVersion(msg) {
+                      var myVar = AndroidInterface.getAndroidVersion();
+                      document.getElementById("version").innerHTML = msg + " You are running API Version " + myVar;
+                  }
+                </script>
+            </body>
+          </html>     
