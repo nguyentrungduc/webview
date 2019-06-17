@@ -526,3 +526,13 @@ Ví dụ: cái mới WebView có thể không gọi method shouldOverrideUrlLoad
 - clearFormData() : xóa tất cả data từ webform
 - clearHttpAuthUsernamePassword() : xóa tất cả thông tin xác thực http
 - hasFormData() : Check xem có data trong textfield hay ko 
+
+
+### Web Storage
+- Manage Application cache apo, web sql database api, html5 web Storage Api, -> cung cấp cache cho các application offline.
+-> Xóa web storage 
+
+           public void clearStorage() {
+                  WebStorage storage = WebStorage.getInstance();
+                  storage.deleteAllData();
+              }
